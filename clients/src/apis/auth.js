@@ -20,11 +20,14 @@ export const googleAuth = async (body) => {
     console.log(error);
   }
 };
+
 export const registerUser = async (body) => {
   try {
-    return await axios.post(`${url}/auth/register`, body);
+    const response = await axios.post(`${url}/auth/register`, body);
+    return response; // Return the whole response object
   } catch (error) {
-    console.log('error in register api');
+    console.error('Error in register API:', error.response?.data || error.message);
+    return { error: error.response?.data || { message: 'Registration failed!' } }; // Return the error object
   }
 };
 export const validUser = async () => {

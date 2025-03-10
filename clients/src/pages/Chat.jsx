@@ -106,7 +106,6 @@ function Chat(props) {
               <div className='flex items-center gap-x-[10px]'>
                 <div className='flex flex-col items-start justify-center'>
                   <h5 className='text-[17px] text-[#2b2e33] font-bold tracking-wide'>{getChatName(activeChat, activeUser)}</h5>
-                  {/* <p className='text-[11px] text-[#aabac8]'>Last seen 5 min ago</p> */}
                 </div>
               </div>
               <div>
@@ -153,9 +152,6 @@ function Chat(props) {
               </div>
 
               <div className='border-x-[1px] border-b-[1px] bg-[#f8f9fa] border-[#aabac8] px-6 py-3 w-[360px] sm:w-[400px] md:w-[350px] lg:w-[400px] rounded-b-[10px] h-[50px]'>
-                {/* {
-                  isTyping ? <div>Loading</div> : ""
-                } */}
                 <div className='flex justify-between items-start'>
 
                   <div className='cursor-pointer' onClick={() => setShowPicker(!showPicker)}>

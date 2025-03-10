@@ -9,6 +9,7 @@ import { addToGroup, removeUser, renameGroup } from '../apis/chat';
 import { fetchChats } from '../redux/chatsSlice';
 import Search from './group/Search';
 import { getChatName, getChatPhoto } from '../utils/logics';
+import { useNavigate } from 'react-router';
 const style = {
   position: 'absolute',
   top: '50%',
@@ -28,7 +29,8 @@ function Model(props) {
   const [isLoading, setIsLoading] = useState(false)
   const [members, setMembers] = useState([])
   const { activeChat } = useSelector((state) => state.chats)
-  const activeUser = useSelector((state) => state.activeUser)
+  const activeUser = useSelector((state) => state.activeUser);
+  const navigate = useNavigate();
 
   const handleOpen = () => {
     setOpen(true);
@@ -73,7 +75,8 @@ function Model(props) {
     const res = await removeUser({ chatId: activeChat._id, userId: activeUser.id })
     if (res._id) {
       dispatch(fetchChats())
-      setOpen(false)
+      setOpen(false);
+      navigate(0);
     }
     return
   }
@@ -129,7 +132,6 @@ function Model(props) {
                     <input onChange={(e) => setName(e.target.value)} value={name} className="border-[#c4ccd5] border-[1px] text-[13.5px] py-[4px] px-2 w-[100%]" type="text" name="chatName" placeholder="Group Name" required />
                     <input onChange={(e) => setSearch(e.target.value)} className="border-[#c4ccd5] border-[1px] text-[13.5px] py-[4px] px-2 w-[100%]" type="text" name="users" placeholder="add users" />
                   </form>
-                  {/* <div style={{ display: search ? "" : "none" }} className='h-[fit-content] bg-[#fff] flex flex-col gap-y-3 pt-3 px-2'> */}
 
                   <Search isLoading={isLoading} handleClick={handleClick} search={search} searchResults={searchResults} />
 

@@ -4,19 +4,28 @@ import { OAuth2Client } from 'google-auth-library';
 export const register = async (req, res) => {
   const { firstname, lastname, email, password } = req.body;
   try {
+    // Check if user already exists
     const existingUser = await user.findOne({ email });
-    if (existingUser)
-      return res.status(400).json({ error: 'User already Exits' });
-    const fullname = firstname + ' ' + lastname;
+    if (existingUser) {
+      return res.status(400).json({ message: 'User already exists' });
+    }
+
+    // Concatenate names
+    const fullname = `${firstname} ${lastname}`;
     const newuser = new user({ email, password, name: fullname });
+
+    // Generate the token
     const token = await newuser.generateAuthToken();
     await newuser.save();
-    res.json({ message: 'success', token: token });
+
+    // Send success response
+    return res.status(201).json({ message: 'success', token: token });
   } catch (error) {
-    console.log('Error in register ' + error);
-    res.status(500).send(error);
+    console.error('Error in register:', error.message);
+    return res.status(500).json({ message: 'Internal server error' });
   }
 };
+
 export const login = async (req, res) => {
   const { email, password } = req.body;
   try {

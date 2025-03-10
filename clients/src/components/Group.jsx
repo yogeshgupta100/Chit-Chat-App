@@ -8,6 +8,7 @@ import { createGroup } from '../apis/chat';
 import { fetchChats } from '../redux/chatsSlice';
 import { useDispatch } from 'react-redux';
 import Search from './group/Search';
+import { toast } from 'react-toastify';
 
 const style = {
   position: 'absolute',
@@ -38,11 +39,12 @@ function Group() {
   const handleFormSearch = async (e) => {
     setSearch(e.target.value)
   }
-  const handleClick = (e) => {
-    if (selectedUser.includes(e)) {
-      return
+  const handleClick = (user) => {
+    if (selectedUser.some((u) => u._id === user._id)) {
+      toast.warning("User already added!");
+      return;
     }
-    setSelectedUsers([...selectedUser, e])
+    setSelectedUsers([...selectedUser, user]);
   }
 
   const deleteSelected = (ele) => {
@@ -57,6 +59,8 @@ function Group() {
       })
       dispatch(fetchChats())
       handleClose()
+    }else{
+      toast.error("Select at least 2 users");
     }
   }
   useEffect(() => {
